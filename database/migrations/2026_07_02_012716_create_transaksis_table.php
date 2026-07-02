@@ -11,15 +11,13 @@ return new class extends Migration
         Schema::create('transaksis', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pelanggan_id')->constrained('pelanggans')->onDelete('cascade');
-            $table->foreignId('pembayaran_id')->constrained('pembayarans')->onDelete('cascade');
+            $table->date('tanggal_transaksi');
+            $table->enum('metode_pembayaran', ['transfer', 'cod'])->default('transfer');
             $table->integer('total_harga')->default(0);
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('transaksis');
