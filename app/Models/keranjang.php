@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Keranjang extends Model
 {
-    protected $fillable = ['barang_id', 'jumlah', 'subtotal'];
+    protected $fillable = ['barang_id', 'transaksi_id', 'jumlah', 'subtotal'];
 
     public function transaksi()
     {

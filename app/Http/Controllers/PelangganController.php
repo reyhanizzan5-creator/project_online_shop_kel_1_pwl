@@ -21,24 +21,44 @@ class PelangganController extends Controller
 
     public function store(Request $request)
     {
-        $pelanggan = Pelanggan::create($request->all());
+        $user = User::create([
+            'name' => $request->nama,
+            'username' => $request->username,
+            'password' => bcrypt($request->password),
+            'role' => 'pelanggan',
+        ]);
+
+        Pelanggan::create([
+            'user_id' => $user->id,
+            'nama' => $request->nama,
+            'no_hp' => $request->no_hp,
+            'kode_pos' => $request->kode_pos,
+            'alamat' => $request->alamat,
+        ]);
+
         return redirect()->route('pelanggan.index');
     }
 
-    public function edit(string $id)
+    public function edit($id)
     {
         $pelanggan = Pelanggan::findOrFail($id);
         return view('pelanggan.edit', compact('pelanggan'));
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
         $pelanggan = Pelanggan::findOrFail($id);
-        $pelanggan->update($request->all());
+        $pelanggan->update([
+            'nama' => $request->nama,
+            'no_hp' => $request->no_hp,
+            'kode_pos' => $request->kode_pos,
+            'alamat' => $request->alamat,
+        ]);
+        
         return redirect()->route('pelanggan.index');
     }
 
-    public function destroy(string $id)
+    public function destroy($id)
     {
         $pelanggan = Pelanggan::findOrFail($id);
         $pelanggan->delete();

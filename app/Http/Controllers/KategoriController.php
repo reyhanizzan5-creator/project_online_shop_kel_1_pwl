@@ -24,27 +24,20 @@ class KategoriController extends Controller
         return redirect()->route('kategori.index');
     }
 
-    public function show(string $id)
-    {
-        //
-    }
-
-
-    public function edit(string $id)
+    public function edit($id)
     {
         $kategori = Kategori::findOrFail($id);
         return view('kategori.edit', compact('kategori'));
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
         $kategori = Kategori::findOrFail($id);
         $kategori->update(['nama_kategori'=> $request->nama_kategori]);
         return redirect()->route('kategori.index');
     }
 
-
-    public function destroy(string $id)
+    public function destroy($id)
     {
         $kategori = Kategori::findOrFail($id);
         $kategori->delete();

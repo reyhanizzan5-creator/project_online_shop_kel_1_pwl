@@ -8,7 +8,7 @@ class Kategori extends Model
 {
     protected $fillable = ['nama_kategori'];
 
-    public function barangs(){
+    public function barang(){
         return $this->belongsTo(Barang::class);
     }
 }
