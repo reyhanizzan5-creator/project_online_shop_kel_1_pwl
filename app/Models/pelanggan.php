@@ -6,7 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pelanggan extends Model
 {
-    protected $fillable = ['user_id', 'transaksi_id', 'nama', 'no_hp', 'kode_pos', 'alamat'];
+    protected $fillable = [
+        'user_id', 
+        'transaksi_id', 
+        'nama', 
+        'no_hp', 
+        'kode_pos', 
+        'alamat'];
 
     public function transaksis()
     {
