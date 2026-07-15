@@ -14,6 +14,7 @@ class BarangSeeder extends Seeder
      */
     public function run(): void
     {
+
        $data = [
             'Elektronik' => [
                 ['Headset Bluetooth JBL Tune 510BT', 450000, 25, 'https://i.ibb.co.com/1Gs9XW9s/jbl-tune-510-bt-wireless-headphones.webp'],

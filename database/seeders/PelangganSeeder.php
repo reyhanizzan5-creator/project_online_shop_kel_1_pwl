@@ -46,6 +46,7 @@ class PelangganSeeder extends Seeder
             // User dibuat lalu ID-nya langsung dipakai saat itu juga untuk
             // membuat baris pelanggan yang sesuai, jadi user_id tidak akan
             // pernah tertukar antar pelanggan walau datanya banyak.
+
             $user = User::firstOrCreate(
                 ['username' => $data['username']],
                 [

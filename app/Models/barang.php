@@ -45,6 +45,7 @@ class Barang extends Model
         }
 
         if (file_exists(public_path('images/barang/' . $this->gambar))) {
+
             return asset('images/barang/' . $this->gambar);
         }
 
