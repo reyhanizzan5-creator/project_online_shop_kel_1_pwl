@@ -2,60 +2,67 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Barang;
+use App\Models\Kategori;
 use Illuminate\Database\Seeder;
-use App\Models\Barang; // Memastikan import model benar
 
 class BarangSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Setiap barang diikat ke kategori_id milik kategori yang sudah dibuat
+     * oleh KategoriSeeder, dicari lewat nama_kategori-nya.
      */
     public function run(): void
     {
-        // 1. Barang Pertama (Kategori: Makanan / ID: 1)
-        Barang::create([
-            'nama_barang' => 'Mie Instan Goreng',
-            'kategori_id' => 1,
-            'gambar' => 'mie_goreng.jpg',
-            'harga' => 3000, // Angka murni tanpa titik dan tanda petik
-            'stok' => 50
-        ]);
+        $data = [
+            'Elektronik' => [
+                ['Headset Bluetooth JBL Tune 510BT', 450000, 25],
+                ['Power Bank 20000mAh Fast Charging', 275000, 40],
+                ['Speaker Portable Advance', 185000, 30],
+                ['Kabel Data USB-C Fast Charging', 45000, 100],
+            ],
+            'Fashion Pria' => [
+                ['Kemeja Flanel Lengan Panjang', 120000, 50],
+                ['Celana Chino Slim Fit', 165000, 35],
+                ['Jaket Bomber Pria', 210000, 20],
+            ],
+            'Fashion Wanita' => [
+                ['Blouse Wanita Katun Premium', 95000, 45],
+                ['Rok Plisket Midi', 110000, 30],
+                ['Tas Selempang Wanita', 175000, 25],
+            ],
+            'Makanan & Minuman' => [
+                ['Kopi Robusta Gayo 250gr', 65000, 60],
+                ['Keripik Singkong Balado 200gr', 18000, 150],
+                ['Madu Hutan Asli 500ml', 95000, 40],
+                ['Teh Celup Herbal isi 25', 22000, 80],
+            ],
+            'Kesehatan & Kecantikan' => [
+                ['Hand Sanitizer 500ml', 25000, 100],
+                ['Sheet Mask Wajah isi 5', 35000, 70],
+                ['Vitamin C 1000mg isi 30 Tablet', 55000, 45],
+            ],
+            'Peralatan Rumah Tangga' => [
+                ['Rak Serbaguna 3 Susun', 145000, 20],
+                ['Toples Set Kedap Udara isi 3', 85000, 30],
+                ['Sapu & Pengki Set', 55000, 40],
+                ['Lampu LED Hemat Energi 12W', 32000, 90],
+            ],
+        ];
 
-        // 2. Barang Kedua (Kategori: Makanan / ID: 1)
-        Barang::create([
-            'nama_barang' => 'Kripik Singkong',
-            'kategori_id' => 1,
-            'gambar' => 'kripik_singkong.jpg',
-            'harga' => 12000,
-            'stok' => 30
-        ]);
+        foreach ($data as $namaKategori => $daftarBarang) {
+            $kategori = Kategori::where('nama_kategori', $namaKategori)->first();
 
-        // 3. Barang Ketiga (Kategori: Minuman / ID: 2)
-        Barang::create([
-            'nama_barang' => 'Kopi Susu Botol',
-            'kategori_id' => 2,
-            'gambar' => 'kopi_susu.jpg',
-            'harga' => 8000,
-            'stok' => 40
-        ]);
+            if (! $kategori) {
+                continue;
+            }
 
-        // 4. Barang Keempat (Kategori: Elektronik / ID: 4)
-        Barang::create([
-            'nama_barang' => 'Mouse Wireless',
-            'kategori_id' => 4,
-            'gambar' => 'mouse_wireless.jpg',
-            'harga' => 150000,
-            'stok' => 15
-        ]);
-
-        // 5. Barang Kelima (Kategori: Pakaian / ID: 3)
-        Barang::create([
-            'nama_barang' => 'Kaos Polos Hitam XL',
-            'kategori_id' => 3,
-            'gambar' => 'kaos_hitam.jpg',
-            'harga' => 65000,
-            'stok' => 25
-        ]);
+            foreach ($daftarBarang as [$nama, $harga, $stok]) {
+                Barang::firstOrCreate(
+                    ['nama_barang' => $nama],
+                    ['kategori_id' => $kategori->id, 'harga' => $harga, 'stok' => $stok]
+                );
+            }
+        }
     }
 }

@@ -13,6 +13,7 @@ return new class extends Migration
             $table->foreignId('pelanggan_id')->constrained('pelanggans')->onDelete('cascade');
             $table->date('tanggal_transaksi');
             $table->enum('metode_pembayaran', ['transfer', 'cod'])->default('transfer');
+            $table->enum('status', ['keranjang', 'diproses', 'dikirim', 'selesai', 'dibatalkan'])->default('keranjang');
             $table->integer('total_harga')->default(0);
             $table->timestamps();
         });
