@@ -12,8 +12,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('nama');
-            $table->integer('no_hp')->unique();
-            $table->integer('kode_pos');
+            $table->string('no_hp', 20)->unique();
+            $table->string('kode_pos', 10);
             $table->text('alamat');
             $table->timestamps();
         });

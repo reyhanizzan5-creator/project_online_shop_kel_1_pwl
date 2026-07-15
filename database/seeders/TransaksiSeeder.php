@@ -2,55 +2,51 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Pelanggan;
+use App\Models\Transaksi;
+use App\Models\User;
 use Illuminate\Database\Seeder;
-use App\Models\Transaksi; // Memastikan import model benar
 
 class TransaksiSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        // 1. Transaksi Pertama
-        Transaksi::create([
-            'pelanggan_id' => 1,
-            'tanggal_transaksi' => now(),
-            'metode_pembayaran' => 'transfer',
-            'total_harga' => 800000 // Diubah dari '800.000' menjadi angka murni tanpa titik
-        ]);
+        $daftarTransaksi = [
+            ['username' => 'budi', 'status' => 'selesai',    'metode_pembayaran' => 'transfer', 'hari_lalu' => 5],
+            ['username' => 'budi', 'status' => 'diproses',   'metode_pembayaran' => 'cod',       'hari_lalu' => 1],
+            ['username' => 'siti', 'status' => 'dikirim',    'metode_pembayaran' => 'transfer', 'hari_lalu' => 3],
+            ['username' => 'andi', 'status' => 'dibatalkan', 'metode_pembayaran' => 'cod',       'hari_lalu' => 7],
+            ['username' => 'dewi', 'status' => 'keranjang',  'metode_pembayaran' => 'transfer', 'hari_lalu' => 0],
+        ];
 
-        // 2. Transaksi Kedua
-        Transaksi::create([
-            'pelanggan_id' => 1,
-            'tanggal_transaksi' => now()->subDays(1), // Tanggal kemarin
-            'metode_pembayaran' => 'cod',
-            'total_harga' => 150000
-        ]);
+        foreach ($daftarTransaksi as $data) {
+            $user = User::where('username', $data['username'])->first();
 
-        // 3. Transaksi Ketiga
-        Transaksi::create([
-            'pelanggan_id' => 1,
-            'tanggal_transaksi' => now()->subDays(2), // 2 hari lalu
-            'metode_pembayaran' => 'transfer',
-            'total_harga' => 350000
-        ]);
+            if (! $user) {
+                continue;
+            }
 
-        // 4. Transaksi Keempat
-        Transaksi::create([
-            'pelanggan_id' => 1,
-            'tanggal_transaksi' => now()->subDays(3), // 3 hari lalu
-            'metode_pembayaran' => 'cod',
-            'total_harga' => 50000
-        ]);
+            $pelanggan = Pelanggan::where('user_id', $user->id)->first();
 
-        // 5. Transaksi Kelima
-        Transaksi::create([
-            'pelanggan_id' => 1,
-            'tanggal_transaksi' => now()->subDays(4), // 4 hari lalu
-            'metode_pembayaran' => 'transfer',
-            'total_harga' => 1200000
-        ]);
+            if (! $pelanggan) {
+                continue;
+            }
+
+            $sudahAda = Transaksi::where('pelanggan_id', $pelanggan->id)
+                ->where('status', $data['status'])
+                ->exists();
+
+            if ($sudahAda) {
+                continue;
+            }
+
+            Transaksi::create([
+                'pelanggan_id' => $pelanggan->id,
+                'tanggal_transaksi' => now()->subDays($data['hari_lalu'])->toDateString(),
+                'metode_pembayaran' => $data['metode_pembayaran'],
+                'status' => $data['status'],
+                'total_harga' => 0,
+            ]);
+        }
     }
 }

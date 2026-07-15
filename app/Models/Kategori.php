@@ -9,6 +9,11 @@ class Kategori extends Model
     protected $fillable = ['nama_kategori'];
 
     public function barang(){
-        return $this->belongsTo(Barang::class);
+        return $this->hasMany(Barang::class);
+    }
+
+    public function getJumlahBarangAttribute(): int
+    {
+        return $this->barang()->count();
     }
 }
