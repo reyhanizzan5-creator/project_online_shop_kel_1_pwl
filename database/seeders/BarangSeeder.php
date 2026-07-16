@@ -8,10 +8,6 @@ use Illuminate\Database\Seeder;
 
 class BarangSeeder extends Seeder
 {
-    /**
-     * Setiap barang diikat ke kategori_id milik kategori yang sudah dibuat
-     * oleh KategoriSeeder, dicari lewat nama_kategori-nya.
-     */
     public function run(): void
     {
         $data = [
