@@ -11,7 +11,8 @@ class Barang extends Model
         'kategori_id', 
         'harga', 
         'stok', 
-        'gambar'
+        'gambar',
+        'profil'
     ];
 
     protected $casts = [
